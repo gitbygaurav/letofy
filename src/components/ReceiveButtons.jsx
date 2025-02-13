@@ -83,6 +83,7 @@ const ReceiveButtons = () => {
         style={{ backgroundColor: currentCard.bgColor }}
       >
         <span className="inline-block">Receive</span>
+        <span className="inline-block">Your</span>
         <div className="relative inline-flex">
           <img
             src={currentCard.emoji}

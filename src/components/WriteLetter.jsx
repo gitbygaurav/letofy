@@ -322,11 +322,11 @@ export default function WriteLetter() {
                 setLetterContent(e.target.value);
                 setContentError("");
               }}
-              className="w-full text-center font-semibold font-beVietnam min-h-[120px] text-gray-600 text-lg
+              className="w-full text-center font-semibold font-beVietnam min-h-[80px] text-gray-600 text-lg
               resize-none border-none focus:ring-0 focus:outline-none bg-transparent"
             />
             {!letterContent && (
-              <div className="absolute inset-0 flex items-center justify-center p-6 pointer-events-none">
+              <div className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none">
                 <p className="text-center font-semibold font-beVietnam text-[15px] text-gray-400">
                   Type your answer or select from the texts given below
                 </p>
