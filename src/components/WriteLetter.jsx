@@ -287,10 +287,7 @@ export default function WriteLetter() {
             />
           </div>
           <p className="text-white text-base text-center font-extrabold my-2">
-            {letterData.letterDesc
-              .replace(/\b(am I)\b/gi, `is ${letterData.receiverName}`)
-              .replace(/\b(my|mine)\b/gi, `${letterData.receiverName}'s`)
-              .replace(/\bwe\b/gi, `you and ${letterData.receiverName}`)}
+            {letterData.letterDesc}
           </p>
           <div className="flex justify-between">
             <div className="flex items-center justify-start gap-2 rounded-full w-36 border-[2.5px] border-white py-1 px-2">

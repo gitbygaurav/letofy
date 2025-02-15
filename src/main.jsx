@@ -13,7 +13,7 @@ import SendLetter from "./components/SendLetter.jsx";
 import Terms from "./pages/Terms.jsx";
 import LetterSended from "./pages/LetterSended.jsx";
 import ReceiveLetter from "./pages/ReceiveLetter.jsx";
-import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+// import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -80,10 +80,10 @@ const router = createBrowserRouter([
         element: <LetterRouter />,
         errorElement: <Navigate to="/" replace />,
       },
-      {
-        path: "/privacy-policy",
-        element: <PrivacyPolicy />,
-      },
+      // {
+      //   path: "/privacy-policy",
+      //   element: <PrivacyPolicy />,
+      // },
       {
         path: "/terms",
         element: <Terms />,

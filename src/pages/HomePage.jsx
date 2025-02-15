@@ -62,12 +62,12 @@ const HomePage = () => {
         )}
       </div>
       <Letter name={name} onNameError={handleNameError} />
-      {/* <HowToUse />
+      <HowToUse />
       <div className="px-4">
         <ExampleLetters />
         <Testimonials />
         <Contact />
-      </div> */}
+      </div>
       <Footer />
     </>
   );
