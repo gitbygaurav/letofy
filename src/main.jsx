@@ -2,18 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
-import LetterRouter from "./components/LetterRouter";
-import SendLetter from "./components/SendLetter.jsx";
-import Terms from "./pages/Terms.jsx";
-import LetterSended from "./pages/LetterSended.jsx";
-import ReceiveLetter from "./pages/ReceiveLetter.jsx";
-// import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Letter from "./components/Letter.jsx";
+import PreviewLetter from "./components/PreviewLetter.jsx";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -52,42 +43,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
-      },
-      {
-        path: "/send/:id",
-        element: <SendLetter />,
-      },
-      {
-        path : "/letter-sended",
-        element : <LetterSended/>
-      },
-      {
-        path : "/receive-letter",
-        element : <ReceiveLetter/>
+        element: <Letter />,
       },
       {
         path: "/:id",
-        loader: ({ params }) => {
-          if (params.id.endsWith("re")) {
-            return { type: "receive" };
-          }
-          if (params.id.endsWith("sd")) {
-            return { type: "send" };
-          }
-          throw new Error("Invalid letter ID");
-        },
-        element: <LetterRouter />,
-        errorElement: <Navigate to="/" replace />,
-      },
-      // {
-      //   path: "/privacy-policy",
-      //   element: <PrivacyPolicy />,
-      // },
-      {
-        path: "/terms",
-        element: <Terms />,
-      },
+        element: <PreviewLetter />,
+      }
     ],
   },
 ]);

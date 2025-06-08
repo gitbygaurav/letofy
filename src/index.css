@@ -78,3 +78,27 @@
       transform: translateY(150%) rotate(360deg);
     }
   }
+
+  @keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.shake-animation {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes continuous-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.continuous-shake {
+  animation: continuous-shake 0.5s infinite;
+}
+
+.continuous-shake:hover {
+  animation: none;
+}

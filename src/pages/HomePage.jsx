@@ -22,7 +22,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div
+      {/* <div
         className="mt-6 flex flex-col items-center gap-2 w-full max-w-md mx-auto"
         ref={inputRef}
       >
@@ -60,14 +60,14 @@ const HomePage = () => {
             Enter your name to start receiving letters.
           </p>
         )}
-      </div>
+      </div> */}
       <Letter name={name} onNameError={handleNameError} />
-      <HowToUse />
+      {/* <HowToUse />
       <div className="px-4">
         <ExampleLetters />
         <Testimonials />
         <Contact />
-      </div>
+      </div> */}
       <Footer />
     </>
   );

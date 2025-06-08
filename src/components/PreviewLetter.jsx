@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { db } from "../../firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { useShareSheet } from "../context/shareSheetContext";
-import ReceiveButtons from "./ReceiveButtons";
+import { useParams, useNavigate } from "react-router-dom";
+import { User } from "lucide-react";
+import happy from "../assets/emojis/happy.svg";
 
 export default function PreviewLetter() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [letterData, setLetterData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [continuousShake, setContinuousShake] = useState(true);
-  const { openShareSheet, setShareType, setShareMessage, setShareUrl } = useShareSheet();
+  const [userCount, setUserCount] = useState("0");
+
+  useEffect(() => {
+    const randomUserCount = Math.floor(
+      Math.random() * (999999 - 10000 + 1) + 10000
+    );
+    const formattedCount = randomUserCount.toLocaleString("en-IN");
+    setUserCount(formattedCount);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,22 +30,16 @@ export default function PreviewLetter() {
   }, []);
 
   useEffect(() => {
-    const fetchLetterData = async () => {
+    const fetchLetterData = () => {
       try {
-        const letterDoc = await getDoc(doc(db, "letters", id));
-
-        if (!letterDoc.exists()) {
+        const saved = localStorage.getItem(`letter_${id}`);
+        if (saved) {
+          const data = JSON.parse(saved);
+          setLetterData(data);
+        } else {
           setError("Letter not found");
-          return;
+          setTimeout(() => navigate("/"), 2000);
         }
-
-        const data = letterDoc.data();
-        if (data.type !== "send") {
-          setError("Invalid letter type");
-          return;
-        }
-
-        setLetterData(data);
       } catch (err) {
         console.error("Error fetching letter:", err);
         setError("Failed to load letter");
@@ -48,97 +49,91 @@ export default function PreviewLetter() {
     };
 
     fetchLetterData();
-  }, [id]);
+  }, [id, navigate]);
 
   const shareLetter = () => {
-    setShareType("send");
-    setShareMessage(`${letterData.senderName} sent a ${letterData.letterType} letter to ${letterData.receiverName}.`);
-    setShareUrl(`\n${window.location.href}`);
-    openShareSheet();
+    const message = encodeURIComponent(
+      `Hi 👋 Check out this Happy Letter!\n${window.location.href}`
+    );
+    const whatsappUrl = `https://wa.me/?text=${message}`;
+    window.open(whatsappUrl, "_blank");
   };
 
-  if (loading)
+  if (loading) {
     return (
-      <>
-        <div className="h-[30rem] flex items-center justify-center">
-          <div className="loader"></div>
-        </div>
-      </>
+      <div className="h-[30rem] flex items-center justify-center">
+        <div className="loader"></div>
+      </div>
     );
-  if (error)
+  }
+
+  if (error) {
     return <div className="text-center mt-10 text-red-500">{error}</div>;
+  }
+
   if (!letterData) return null;
 
   return (
     <div className="min-h-screen">
-      <ReceiveButtons />
-
       <div className="w-[95vw] font-beVietnam max-w-[420px] mx-auto mt-6">
-        <div
-          className="p-6 rounded-[2rem] min-h-[300px] flex flex-col"
-          style={{ backgroundColor: letterData.bgColor }}
-        >
-          <div className="flex items-center justify-between">
-          <div className="rounded-full py-2 px-4 inline-flex border-2 border-white min-w-[110px] items-center gap-2 self-start mb-4">
-          <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            <span className="text-white font-medium">{letterData.receiverName}</span>
-          </div>
-            <img src={letterData.emoji} alt="emoji" className="h-7 w-7" />
+        <p className="text-sm font font-semibold text-center">
+          <span className="text-[#6C00F1]">{userCount}</span> users <br />
+          are currently using the website
+        </p>
+        <div className="bg-[#039E09] p-6 rounded-[2rem] min-h-[300px] flex flex-col mt-6">
+          <div className="relative flex justify-center items-center w-[90vw] max-w-[360px] h-[54px] mt-4">
+            <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400">
+              <User className="text-white" fill="currentColor" size={20} />
+            </div>
+            <input
+              type="text"
+              value={letterData.senderName}
+              className="bg-inherit w-full h-[60px] pl-[70px] py-4 rounded-full border-2 border-white text-white text-lg placeholder:text-white focus:outline-none focus:ring-2 focus:ring-black/5 font-readex"
+              disabled
+            />
           </div>
 
-          <p className="text-white my-4 text-center">
-            {letterData.question}
-          </p>
-
-          <div className="border-2 border-white min-w-[110px] rounded-full py-2 px-4 inline-flex items-center gap-2 self-start mb-6">
-          <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            <span className="text-white font-medium">{letterData.senderName}</span>
+          <div className="flex gap-2 items-center justify-center text-white text-sm font-medium leading-snug font-beVietnam my-6">
+            <p>Dedicated</p>
+            <img src={happy} alt="happy" className="h-10" />
+            <p>a Happy Letter to</p>
           </div>
 
-          {/* Answer */}
-          <div className="bg-white rounded-xl p-4 mb-6">
+          <div className="relative flex justify-center items-center w-[90vw] max-w-[360px] h-[54px]">
+            <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400">
+              <User className="text-white" fill="currentColor" size={20} />
+            </div>
+            <input
+              type="text"
+              value={letterData.receiverName}
+              className="bg-inherit w-full h-[60px] pl-[70px] py-4 rounded-full border-2 border-white text-white text-lg placeholder:text-white focus:outline-none focus:ring-2 focus:ring-black/5 font-readex"
+              disabled
+            />
+          </div>
+
+          <div className="bg-white rounded-xl px-5 py-6 mb-6 mt-6">
             <p className="text-black font-bold text-base text-center">
               {letterData.message}
             </p>
           </div>
 
-          {/* Share Button */}
           <div className="flex items-center justify-center">
             <button
               onClick={shareLetter}
-              className={`bg-[#FFE600] text-black w-[80%] font-semibold rounded-lg py-3 px-8
+              className={`bg-black text-white w-[80%] font-semibold rounded-full py-3 px-8
               text-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all
-              ${continuousShake ? 'animate-[gentleShake_0.8s_ease-in-out]' : ''}`}
+              ${
+                continuousShake ? "animate-[gentleShake_0.8s_ease-in-out]" : ""
+              }`}
             >
-              Share Letter
-              <img src="/share.svg" alt="share" className="w-5 h-5" />
+              <img src={"whatsapp-icon.png"} alt="whatsapp" className="h-8" />
+              Share on WhatsApp
+              <img src={happy} alt="happy" className="h-8" />
             </button>
           </div>
-          <p className="text-white/80 text-sm text-center mt-3">
-            Share letters on stories
-          </p>
+          {/* <p className="text-white/80 text-sm text-center mt-3">
+            Share letters with friends
+          </p> */}
         </div>
       </div>
     </div>
