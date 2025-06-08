@@ -81,7 +81,7 @@ export default function PreviewLetter() {
           are currently using the website
         </p>
         <div className="bg-[#039E09] p-6 rounded-[2rem] min-h-[300px] flex flex-col mt-6">
-          <div className="relative flex justify-center items-center w-[90vw] max-w-[360px] h-[54px] mt-4">
+          <div className="relative flex justify-center items-center max-w-[360px] h-[54px] mt-4">
             <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400">
               <User className="text-white" fill="currentColor" size={20} />
             </div>
@@ -99,7 +99,7 @@ export default function PreviewLetter() {
             <p>a Happy Letter to</p>
           </div>
 
-          <div className="relative flex justify-center items-center w-[90vw] max-w-[360px] h-[54px]">
+          <div className="relative flex justify-center items-center max-w-[360px] h-[54px]">
             <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400">
               <User className="text-white" fill="currentColor" size={20} />
             </div>
