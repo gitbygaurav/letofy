@@ -6,7 +6,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-creative";
 import "swiper/css/autoplay";
-  
+
 const happyMessages = [
   "You are very honest.you never use filters and always speak the truth!",
   "You have a lot of patience.you handle everything very calmly.",
@@ -59,12 +59,12 @@ export default function Letter() {
     const newErrors = { sender: "", receiver: "" };
 
     if (!senderName.trim()) {
-      newErrors.sender = "Please enter sender's name";
+      newErrors.sender = "Please enter your name";
       hasError = true;
     }
 
     if (!receiverName.trim()) {
-      newErrors.receiver = "Please enter receiver's name";
+      newErrors.receiver = "Please enter your friend's name";
       hasError = true;
     }
 
@@ -128,7 +128,7 @@ export default function Letter() {
               />
             </div>
             {errors.sender && (
-              <p className="text-sm text-red-500 font-beVietnam mt-2 ml-4">
+              <p className="text-sm text-blue-800 font-beVietnam mt-2 ml-4">
                 {errors.sender}
               </p>
             )}
@@ -149,12 +149,12 @@ export default function Letter() {
                   if (errors.receiver)
                     setErrors((prev) => ({ ...prev, receiver: "" }));
                 }}
-                placeholder="Add receiver name"
+                placeholder="Add your friend's name"
                 className="bg-inherit w-full h-[60px] pl-[70px] py-4 rounded-full border-2 border-white text-white text-lg placeholder:text-white focus:outline-none focus:ring-2 focus:ring-black/5 font-readex"
               />
             </div>
             {errors.receiver && (
-              <p className="text-sm text-red-500 font-beVietnam mt-2 ml-4">
+              <p className="text-sm text-blue-800 font-beVietnam mt-2 ml-4">
                 {errors.receiver}
               </p>
             )}

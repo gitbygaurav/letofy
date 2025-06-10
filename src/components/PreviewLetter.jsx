@@ -81,6 +81,7 @@ export default function PreviewLetter() {
           <span className="text-[#6C00F1]">{userCount}</span> users <br />
           are currently using the website
         </p>
+        <button onClick={() => navigate('/')} className={`w-full p-4 bg-gradient-to-b from-[#BE00A5] to-[#58004C] text-white rounded-full mt-2 ${continuousShake ? "animate-[gentleShake_0.8s_ease-in-out]" : ""}`}>Now dedicate your letter</button>
         <div className="bg-[#039E09] p-6 rounded-[2rem] min-h-[300px] flex flex-col mt-6">
           <div className="relative flex justify-center items-center max-w-[360px] h-[54px] mt-4">
             <div className="absolute left-10 top-1/2 -translate-y-1/2 text-gray-400">
@@ -117,8 +118,8 @@ export default function PreviewLetter() {
               {letterData.message}
             </p>
           </div>
-
-          <div className="flex items-center justify-center">
+          <img onClick={shareLetter} className="h-7 w-7 self-center mt-4 cursor-pointer" src="share.png" alt="share-logo" />
+          {/* <div className="flex items-center justify-center">
             <button
               onClick={shareLetter}
               className={`bg-black text-white w-[80%] font-semibold rounded-full py-3 px-8
@@ -131,7 +132,7 @@ export default function PreviewLetter() {
               Share on WhatsApp
               <img src={happy} alt="happy" className="h-8" />
             </button>
-          </div>
+          </div> */}
           {/* <p className="text-white/80 text-sm text-center mt-3">
             Share letters with friends
           </p> */}
