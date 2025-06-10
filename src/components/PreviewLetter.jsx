@@ -13,8 +13,9 @@ export default function PreviewLetter() {
   const [userCount, setUserCount] = useState("0");
 
   useEffect(() => {
+    // Generate random number between 10000 and 99999 (5 digits only)
     const randomUserCount = Math.floor(
-      Math.random() * (999999 - 10000 + 1) + 10000
+      Math.random() * (99999 - 10000 + 1) + 10000
     );
     const formattedCount = randomUserCount.toLocaleString("en-IN");
     setUserCount(formattedCount);
@@ -76,7 +77,7 @@ export default function PreviewLetter() {
   return (
     <div className="min-h-screen">
       <div className="w-[95vw] font-beVietnam max-w-[420px] mx-auto mt-6">
-        <p className="text-sm font font-semibold text-center">
+        <p className="text-lg font font-semibold text-center">
           <span className="text-[#6C00F1]">{userCount}</span> users <br />
           are currently using the website
         </p>
@@ -126,7 +127,7 @@ export default function PreviewLetter() {
                 continuousShake ? "animate-[gentleShake_0.8s_ease-in-out]" : ""
               }`}
             >
-              <img src={"whatsapp-icon.png"} alt="whatsapp" className="h-8" />
+              <img src={"whatsapp.svg"} alt="whatsapp" className="h-8" />
               Share on WhatsApp
               <img src={happy} alt="happy" className="h-8" />
             </button>

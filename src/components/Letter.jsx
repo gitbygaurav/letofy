@@ -21,13 +21,22 @@ export default function Letter() {
   const [messageIndex, setMessageIndex] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [userCount, setUserCount] = useState("0");
+  const [continuousShake, setContinuousShake] = useState(true);
 
   useEffect(() => {
-    const randomUserCount = Math.floor(
-      Math.random() * (999999 - 10000 + 1) + 10000
-    );
-    const formattedCount = randomUserCount.toLocaleString("en-IN");
-    setUserCount(formattedCount);
+  // Generate random number between 100000 and 999999 (6 digits only)
+  const randomUserCount = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
+  const formattedCount = randomUserCount.toLocaleString('en-IN');
+  setUserCount(formattedCount);
+}, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setContinuousShake(true);
+      setTimeout(() => setContinuousShake(false), 600);
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleSendLetter = async () => {
@@ -70,7 +79,7 @@ export default function Letter() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
-      <p className="text-sm font font-semibold text-center">
+      <p className="text-lg font font-semibold text-center">
         <span className="text-[#6C00F1]">{userCount}</span> users <br />
         are currently using the website
       </p>
@@ -130,11 +139,14 @@ export default function Letter() {
         </div>
         <button
           onClick={handleSendLetter}
-          className="w-full bg-black text-white px-8 py-4 rounded-full text-xl font-medium flex items-center justify-center gap-3 hover:bg-black/85 transition-colors continuous-shake"
+          className={`w-full bg-black text-white px-8 py-4 rounded-full text-xl font-medium flex items-center justify-center gap-3 hover:bg-black/85 transition-colors continuous-shake ${
+                continuousShake ? "animate-[gentleShake_0.8s_ease-in-out]" : ""
+              }`}
         >
-          <img src={"whatsapp-icon.png"} alt="whatsapp" className="h-8" />
-          Share on WhatsApp
+          <img src={"whatsapp.svg"} alt="whatsapp" className="h-8" />
+          Dedicate
           <img src={happy} alt="happy" className="h-8" />
+          Happy Letter
         </button>
       </div>
     </div>

@@ -102,3 +102,17 @@
 .continuous-shake:hover {
   animation: none;
 }
+
+@keyframes gentleShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.shake-button {
+  animation: gentleShake 0.8s ease-in-out infinite;
+}
+
+.shake-button:hover {
+  animation: none;
+}
