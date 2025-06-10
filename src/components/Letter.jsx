@@ -6,13 +6,24 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-creative";
 import "swiper/css/autoplay";
-
+  
 const happyMessages = [
-  "You are very honest. You never use filters and always speak the truth!",
-  "You have a lot of patience. You handle everything very calmly.",
-  "No one can work as hard as you do. You never give up on anything.",
-  "You are a very kind person. You make everyone feel so special.",
-  "Your confidence is amazing. It always motivates me to believe in myself.",
+  "You are very honest.you never use filters and always speak the truth!",
+  "You have a lot of patience.you handle everything very calmly.",
+  "No one can work as hard as you do.you never give up on anything.",
+  "You are a very kind person.you make everyone feel so special.",
+  "Your confidence is crazy,it always motivates me to believe in myself.",
+  "You have great wisdom of life,and you always give the best advice.",
+  "You are such a nice soul,the world needs more people like you.",
+  "I love your positive thinking,it brings so much hope to everyone.",
+  "I see leadership quality in you, people naturally trust and follow you.",
+  "You always admit your mistakes,you don't have an ego problem.",
+  "I can blindly trust you,your loyalty is rare.",
+  "You are such a generous person,you give so much without expecting anything in return.",
+  "You take responsibility for everything,and it shows your maturity and strength.",
+  "Your adaptability is amazing,you handle changes so smoothly.",
+  "I like your respectful nature,you treat everyone with so much dignity.",
+  "Your open-mindedness is inspiring for me,you're always ready to understand new ideas.",
 ];
 
 export default function Letter() {
@@ -22,13 +33,17 @@ export default function Letter() {
   const [isShaking, setIsShaking] = useState(false);
   const [userCount, setUserCount] = useState("0");
   const [continuousShake, setContinuousShake] = useState(true);
+  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({ sender: "", receiver: "" });
 
   useEffect(() => {
-  // Generate random number between 100000 and 999999 (6 digits only)
-  const randomUserCount = Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
-  const formattedCount = randomUserCount.toLocaleString('en-IN');
-  setUserCount(formattedCount);
-}, []);
+    // Generate random number between 100000 and 999999 (6 digits only)
+    const randomUserCount = Math.floor(
+      Math.random() * (999999 - 100000 + 1) + 100000
+    );
+    const formattedCount = randomUserCount.toLocaleString("en-IN");
+    setUserCount(formattedCount);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,11 +55,21 @@ export default function Letter() {
   }, []);
 
   const handleSendLetter = async () => {
-    if (!senderName.trim() || !receiverName.trim()) {
-      setIsShaking(true);
-      setTimeout(() => setIsShaking(false), 500);
-      return;
+    let hasError = false;
+    const newErrors = { sender: "", receiver: "" };
+
+    if (!senderName.trim()) {
+      newErrors.sender = "Please enter sender's name";
+      hasError = true;
     }
+
+    if (!receiverName.trim()) {
+      newErrors.receiver = "Please enter receiver's name";
+      hasError = true;
+    }
+
+    setErrors(newErrors);
+    if (hasError) return;
 
     try {
       const uniqueId = crypto.randomUUID().split("-").join("");
@@ -93,11 +118,20 @@ export default function Letter() {
               <input
                 type="text"
                 value={senderName}
-                onChange={(e) => setSenderName(e.target.value)}
+                onChange={(e) => {
+                  setSenderName(e.target.value);
+                  if (errors.sender)
+                    setErrors((prev) => ({ ...prev, sender: "" }));
+                }}
                 placeholder="Add your name"
                 className="bg-inherit w-full h-[60px] pl-[70px] py-4 rounded-full border-2 border-white text-white text-lg placeholder:text-white focus:outline-none focus:ring-2 focus:ring-black/5 font-readex"
               />
             </div>
+            {errors.sender && (
+              <p className="text-sm text-red-500 font-beVietnam mt-2 ml-4">
+                {errors.sender}
+              </p>
+            )}
             <div className="flex gap-2 items-center justify-center text-white text-sm font-medium leading-snug font-beVietnam my-6">
               <p>Dedicate</p>
               <img src={happy} alt="happy" className="h-10" />
@@ -110,11 +144,20 @@ export default function Letter() {
               <input
                 type="text"
                 value={receiverName}
-                onChange={(e) => setReceiverName(e.target.value)}
-                placeholder="Add your name"
+                onChange={(e) => {
+                  setReceiverName(e.target.value);
+                  if (errors.receiver)
+                    setErrors((prev) => ({ ...prev, receiver: "" }));
+                }}
+                placeholder="Add receiver name"
                 className="bg-inherit w-full h-[60px] pl-[70px] py-4 rounded-full border-2 border-white text-white text-lg placeholder:text-white focus:outline-none focus:ring-2 focus:ring-black/5 font-readex"
               />
             </div>
+            {errors.receiver && (
+              <p className="text-sm text-red-500 font-beVietnam mt-2 ml-4">
+                {errors.receiver}
+              </p>
+            )}
           </div>
 
           <div className="mx-auto mt-6">
@@ -139,9 +182,9 @@ export default function Letter() {
         </div>
         <button
           onClick={handleSendLetter}
-          className={`w-full bg-black text-white px-8 py-4 rounded-full text-xl font-medium flex items-center justify-center gap-3 hover:bg-black/85 transition-colors continuous-shake ${
-                continuousShake ? "animate-[gentleShake_0.8s_ease-in-out]" : ""
-              }`}
+          className={`w-full bg-black text-white px-4 py-4 rounded-full text-xl font-medium flex items-center justify-center gap-3 hover:bg-black/85 transition-colors continuous-shake ${
+            continuousShake ? "animate-[gentleShake_0.8s_ease-in-out]" : ""
+          }`}
         >
           <img src={"whatsapp.svg"} alt="whatsapp" className="h-8" />
           Dedicate
